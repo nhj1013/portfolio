@@ -70,20 +70,45 @@ git pull
 docker compose -f docker-compose.prod.yml up -d --build
 ```
 
-## 6. (선택) 도메인 + HTTPS
+## 6. 도메인 연결 (namhj97.duckdns.org) + HTTPS
 
-1. 도메인 구입 후 A 레코드를 공인 IP로 연결
-2. Caddy 를 얹으면 HTTPS 가 자동 발급됩니다:
-   ```bash
-   sudo apt install -y caddy
-   ```
-   `/etc/caddy/Caddyfile`:
-   ```
-   your-domain.com {
-       reverse_proxy localhost:80
-   }
-   ```
-   이 경우 docker-compose.prod.yml 의 프론트 포트를 `"127.0.0.1:8081:3000"` 처럼 내부 전용으로 바꾸고 Caddy가 8081로 프록시하도록 하면 더 안전합니다.
+### 6-1. DuckDNS 가 VM 을 가리키게 변경
+
+1. https://www.duckdns.org 로그인
+2. `namhj97` 도메인의 **current ip** 칸에 VM 공인 IP 입력 → **update ip**
+3. 확인: `nslookup namhj97.duckdns.org` 결과가 VM IP 면 완료 (반영은 보통 1분 이내)
+
+이것만 해도 `http://namhj97.duckdns.org` 로 접속됩니다.
+
+### 6-2. HTTPS 적용 (Caddy — 인증서 자동 발급/갱신)
+
+방화벽에서 **443 포트**도 80과 같은 방법으로 열어준 뒤 (Security List + iptables):
+
+```bash
+sudo apt install -y caddy
+sudo tee /etc/caddy/Caddyfile > /dev/null <<'EOF'
+namhj97.duckdns.org {
+    reverse_proxy localhost:8081
+}
+EOF
+```
+
+Caddy 가 80/443 을 차지하므로 프론트 컨테이너는 내부 포트로 옮깁니다.
+`docker-compose.prod.yml` 의 frontend `ports` 를:
+
+```yaml
+    ports:
+      - "127.0.0.1:8081:3000"
+```
+
+로 바꾼 뒤:
+
+```bash
+docker compose -f docker-compose.prod.yml up -d
+sudo systemctl reload caddy
+```
+
+이후 `https://namhj97.duckdns.org` 접속 — 인증서는 Let's Encrypt 로 자동 발급되고 자동 갱신됩니다.
 
 ## 트러블슈팅
 
