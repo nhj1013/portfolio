@@ -3,6 +3,8 @@ import {initComments, onAuthChanged} from './comments.js';
 import {initTheme} from './theme.js';
 import {initCloudLogo} from './cloudLogo.js';
 import {initScrollSpy} from './scrollSpy.js';
+import {initIcons} from './icons.js';
+import {initCopyText} from './copyText.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
@@ -10,4 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initComments();
     initCloudLogo();
     initScrollSpy();
+    initIcons();
+    initCopyText();
 });

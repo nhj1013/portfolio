@@ -248,6 +248,10 @@ ul {
     color: var(--text-muted);
 }
 
+.gnb a {
+    position: relative;
+}
+
 .gnb a:hover {
     color: var(--primary);
 }
@@ -255,9 +259,18 @@ ul {
 .gnb a.active {
     color: var(--primary);
     font-weight: 700;
-    text-decoration: underline;
-    text-decoration-thickness: 2.5px;
-    text-underline-offset: 7px;
+}
+
+/* 끝이 둥근 밑줄 (text-decoration은 각져서 가상 요소로 대체) */
+.gnb a.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -7px;
+    height: 3px;
+    border-radius: 999px;
+    background: var(--primary);
 }
 
 .dark-mode-icon {
@@ -290,6 +303,60 @@ ul {
     font-weight: 600;
     cursor: pointer;
     transition: 0.15s;
+}
+
+/* 버튼 앞 브랜드 아이콘 (hero 연락처 버튼) */
+.hero-contact .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-icon {
+    display: inline-flex;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.btn-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* 메일 버튼 우상단에 얹히는 복사 버튼 */
+.mail-btn-wrap {
+    position: relative;
+    display: inline-flex;
+}
+
+.copy-mail-btn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+.copy-mail-btn:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.copy-mail-btn .btn-icon {
+    width: 12px;
+    height: 12px;
 }
 
 .btn-primary {
@@ -370,7 +437,7 @@ ul {
 .hero-contact {
     margin-top: 28px;
     display: flex;
-    gap: 10px;
+    gap: 20px;
 }
 
 /* ---------- Sections ---------- */
