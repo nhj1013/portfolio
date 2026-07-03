@@ -1,0 +1,12 @@
+{
+    "name": "portfolio-frontend",
+    "version": "1.0.0",
+    "description": "경력기술서 포트폴리오 정적 서버",
+    "main": "app.cjs",
+    "scripts": {
+        "start": "node app.cjs"
+    },
+    "dependencies": {
+        "express": "^5.1.0"
+    }
+}

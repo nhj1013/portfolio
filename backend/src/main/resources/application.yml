@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    # 로컬 기본값. 운영(Docker)에서는 환경변수로 덮어쓴다 (docker-compose.prod.yml 참고)
+    url: ${DB_URL:jdbc:mysql://localhost:3307/portfolio?serverTimezone=Asia/Seoul&characterEncoding=UTF-8}
+    username: ${DB_USERNAME:portfolio}
+    password: ${DB_PASSWORD:portfolio1234}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+
+jwt:
+  # 로컬 데모용 기본값. 운영에서는 JWT_SECRET 환경변수로 반드시 교체
+  secret: ${JWT_SECRET:portfolio-jwt-secret-key-for-demo-must-be-longer-than-256-bits-0123456789}
+  access-token-validity-ms: 86400000 # 24h
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    org.hibernate.SQL: debug

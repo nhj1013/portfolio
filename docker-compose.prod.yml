@@ -1,0 +1,54 @@
+# ============================================
+# ✅ 운영 배포용 (Oracle Cloud VM 등)
+#   docker compose -f docker-compose.prod.yml up -d --build
+#   비밀값은 같은 디렉터리의 .env 에서 주입 (.env.example 참고)
+#   외부에는 프론트(80)만 노출한다. MySQL/백엔드는 내부 네트워크 전용.
+# ============================================
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: portfolio-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: portfolio
+      MYSQL_USER: portfolio
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: Asia/Seoul
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uportfolio", "-p${MYSQL_PASSWORD}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  backend:
+    build: ./backend
+    container_name: portfolio-backend
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/portfolio?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+      DB_USERNAME: portfolio
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+
+  frontend:
+    build: ./frontend
+    container_name: portfolio-frontend
+    restart: always
+    depends_on:
+      - backend
+    environment:
+      API_TARGET: http://backend:8080
+    ports:
+      - "80:3000"
+
+volumes:
+  mysql-data:

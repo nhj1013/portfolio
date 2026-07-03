@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>백엔드 개발자 경력기술서</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/env.js"></script>
+    <script type="module" src="/js/main.js"></script>
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+        <a href="/" class="logo">Portfolio.</a>
+        <nav class="gnb">
+            <a href="#about">소개</a>
+            <a href="#skills">기술 스택</a>
+            <a href="#career">경력</a>
+            <a href="#architecture">이 사이트</a>
+            <a href="#guestbook">방명록</a>
+        </nav>
+        <div id="authArea" class="auth-area"></div>
+    </div>
+</header>
+
+<main>
+    <!-- ===================== Hero ===================== -->
+    <section class="hero" id="about">
+        <div class="container">
+            <p class="hero-label">Backend Developer</p>
+            <h1>안녕하세요,<br>서비스를 <span class="accent">끝까지 책임지는</span> 백엔드 개발자입니다.</h1>
+            <p class="hero-desc">
+                에듀테크 도메인에서 Spring Boot 기반 B2B 주문 시스템, 어드민, 외부 배송 연동을 설계·운영했습니다.<br>
+                기획부터 배포, 유지보수까지 서비스 전 주기를 경험했으며 프론트(Vanilla JS)까지 다루는 풀스택 커버리지가 강점입니다.
+            </p>
+            <div class="hero-contact">
+                <a href="mailto:nhj6358@gmail.com" class="btn btn-primary">nhj6358@gmail.com</a>
+                <a href="https://github.com/nhj1013" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
+                <a href="https://github.com/nhj1013/portfolio" target="_blank" rel="noopener" class="btn btn-ghost">이 사이트 소스코드</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== Skills ===================== -->
+    <section class="section" id="skills">
+        <div class="container">
+            <h2 class="section-title">기술 스택</h2>
+            <div class="skill-grid">
+                <div class="skill-card">
+                    <h3>Backend</h3>
+                    <ul>
+                        <li>Java 17 (Records, Switch Expressions, Stream API)</li>
+                        <li>Spring Boot 3 / Spring Data JPA / QueryDSL</li>
+                        <li>Spring Batch / Spring Security (JWT)</li>
+                        <li>MyBatis / SpringDoc (Swagger)</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h3>Database</h3>
+                    <ul>
+                        <li>MySQL / MariaDB</li>
+                        <li>JPA 엔티티 설계 및 연관관계 매핑</li>
+                        <li>페이징 · 동적 검색 쿼리 최적화</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h3>Frontend</h3>
+                    <ul>
+                        <li>JavaScript (ES Modules, Vanilla)</li>
+                        <li>HTML / CSS</li>
+                        <li>Node.js (Express 정적 서버) / Vite</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h3>Infra / Tools</h3>
+                    <ul>
+                        <li>AWS S3 (파일 저장) / CloudFront (CDN)</li>
+                        <li>Docker / Git</li>
+                        <li>DSPM 외부 배송 시스템 연동 / Jandi 알림 연동</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== Career ===================== -->
+    <section class="section section-alt" id="career">
+        <div class="container">
+            <h2 class="section-title">경력</h2>
+
+            <div class="career-header">
+                <div>
+                    <h3 class="company">에듀테크 스타트업 <span class="muted">(회사명 수정)</span></h3>
+                    <p class="role">백엔드 개발자 · 풀스택</p>
+                </div>
+                <p class="period">2025.02 ~ 재직 중</p>
+            </div>
+            <p class="career-summary">
+                교재 제작·주문 플랫폼(Paffy / PaffyPlus)의 백엔드 및 어드민을 담당.
+                분석 기간 동안 총 324개 커밋, 신규 시스템 설계부터 운영 버그 대응까지 수행.
+            </p>
+
+            <div class="timeline">
+                <article class="timeline-item">
+                    <div class="timeline-period">2026.01 ~ 2026.05</div>
+                    <div class="timeline-body">
+                        <h4>보이드(Void) B2B 주문 시스템 전체 개발</h4>
+                        <ul>
+                            <li>신규 B2B 주문 플로우를 도메인 설계 단계부터 단독 구현</li>
+                            <li>주문서 작성 → 파일 업로드(S3) → 제작 → 배송까지 전 과정 상태 관리 설계</li>
+                            <li>주문/제작/배송 상태 전이를 엔티티로 모델링하고 어드민 관리 화면까지 개발</li>
+                        </ul>
+                        <p class="tags">Spring Boot · JPA · QueryDSL · AWS S3 · Vanilla JS</p>
+                    </div>
+                </article>
+
+                <article class="timeline-item">
+                    <div class="timeline-period">2025.09 ~ 2026.03</div>
+                    <div class="timeline-body">
+                        <h4>파피플러스(PaffyPlus) Teacher 서비스 개발</h4>
+                        <ul>
+                            <li>선생님용 교재 관리 / 강의 관리 / 주문 수정 기능 풀스택 개발</li>
+                            <li>교재 파일 업로드·미리보기·주문 이력 등 핵심 플로우 구현</li>
+                            <li>JWT 기반 인증과 역할별 접근 제어 적용</li>
+                        </ul>
+                        <p class="tags">Spring Boot · Spring Security (JWT) · MySQL · Express</p>
+                    </div>
+                </article>
+
+                <article class="timeline-item">
+                    <div class="timeline-period">2025.11 ~</div>
+                    <div class="timeline-body">
+                        <h4>DSPM 외부 배송 시스템 연동</h4>
+                        <ul>
+                            <li>일반/퀵 배송 접수 API 연동 및 실패 재처리 설계</li>
+                            <li>포장완료 · 제작완료 상태 웹훅 수신 처리로 주문 상태 자동 동기화</li>
+                        </ul>
+                        <p class="tags">외부 API 연동 · 상태 동기화 · Spring Batch</p>
+                    </div>
+                </article>
+
+                <article class="timeline-item">
+                    <div class="timeline-period">2025.02 ~ 2026.05</div>
+                    <div class="timeline-body">
+                        <h4>어드민 관리 기능 확장 & Paffy API 유지보수</h4>
+                        <ul>
+                            <li>고객관리 · 팝업관리 · 대시보드 · 매출관리 · 포인트 관리 기능 신규 개발</li>
+                            <li>FAQ / 공지사항 / 템플릿 / 단가 / 포인트 적립 등 운영 API 유지보수</li>
+                            <li>운영 중 발견된 N+1, null-safe 이슈 등 지속적인 리팩토링 수행</li>
+                        </ul>
+                        <p class="tags">Spring Boot · MyBatis · 페이징/검색 최적화</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== Architecture ===================== -->
+    <section class="section" id="architecture">
+        <div class="container">
+            <h2 class="section-title">이 사이트도 실무 스택 그대로 만들었습니다</h2>
+            <div class="arch-grid">
+                <div class="arch-card">
+                    <h3>Frontend</h3>
+                    <p>Express 정적 서버 + Vanilla JS (ES Modules)</p>
+                    <p class="muted">실무 어드민 프론트와 동일한 구조</p>
+                </div>
+                <div class="arch-card">
+                    <h3>Backend</h3>
+                    <p>Spring Boot 3 · Java 17 · JPA · Spring Security</p>
+                    <p class="muted">JWT 인증 + 게스트 댓글 (BCrypt)</p>
+                </div>
+                <div class="arch-card">
+                    <h3>Database</h3>
+                    <p>MySQL 8 (Docker)</p>
+                    <p class="muted">댓글/대댓글 self-reference 모델링, soft delete</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== Guestbook ===================== -->
+    <section class="section section-alt" id="guestbook">
+        <div class="container">
+            <h2 class="section-title">방명록 <span class="count">(<span id="commentCount">0</span>)</span></h2>
+            <p class="section-desc">로그인 없이 닉네임과 비밀번호만으로도 댓글을 남길 수 있습니다. 대댓글도 지원해요.</p>
+
+            <form id="commentForm" class="comment-form">
+                <div id="guestFields" class="guest-fields">
+                    <input type="text" id="guestNickname" placeholder="닉네임" minlength="2" maxlength="20">
+                    <input type="password" id="guestPassword" placeholder="비밀번호 (수정/삭제 시 사용)" minlength="4" maxlength="30">
+                </div>
+                <textarea id="commentContent" rows="3" placeholder="댓글을 입력하세요" maxlength="2000" required></textarea>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">댓글 등록</button>
+                </div>
+            </form>
+
+            <ul id="commentList" class="comment-list"></ul>
+            <div id="pagination" class="pagination"></div>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <p>Spring Boot 3 · JPA · MySQL · Express · Vanilla JS 로 직접 만든 포트폴리오입니다.</p>
+        <p><a href="https://github.com/nhj1013/portfolio" target="_blank" rel="noopener" class="footer-link">GitHub 에서 소스코드 보기 →</a></p>
+    </div>
+</footer>
+
+<!-- ===================== Auth Modal ===================== -->
+<div id="authModal" class="modal">
+    <div class="modal-box">
+        <button type="button" id="authModalClose" class="modal-close" aria-label="닫기">&times;</button>
+        <div class="auth-tabs">
+            <button type="button" class="auth-tab active" data-mode="login">로그인</button>
+            <button type="button" class="auth-tab" data-mode="signup">회원가입</button>
+        </div>
+        <form id="authForm" data-mode="login">
+            <label>
+                아이디
+                <input type="text" id="authUsername" autocomplete="username" required>
+            </label>
+            <label>
+                비밀번호
+                <input type="password" id="authPassword" autocomplete="current-password" minlength="8" required>
+            </label>
+            <label id="nicknameRow" style="display:none">
+                닉네임
+                <input type="text" id="authNickname" minlength="2" maxlength="20">
+            </label>
+            <p id="authError" class="form-error"></p>
+            <button type="submit" id="authSubmit" class="btn btn-primary btn-block">로그인</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
