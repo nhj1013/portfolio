@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HJ.Nam</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="alternate icon" type="image/png" href="/favicon.png">
-    <link rel="apple-touch-icon" href="/favicon.png">
     <script>
         // 저장된 테마를 렌더링 전에 적용 (새로고침 시 흰 화면 깜빡임 방지)
         document.documentElement.dataset.theme = localStorage.getItem('portfolio.theme') || 'light';
@@ -18,7 +16,8 @@
 <body>
 <header class="site-header">
     <div class="header-inner">
-        <a href="/" class="logo">HJ.Nam</a>
+        <!-- 구름 로고 SVG는 /images/hj-cloud-icon.svg 를 cloudLogo.js가 주입 -->
+        <a href="/" class="logo" aria-label="HJ.Nam 홈"></a>
         <nav class="gnb">
             <a href="#about">소개</a>
             <a href="#skills">기술 스택</a>
@@ -186,7 +185,7 @@
     <!-- ===================== Architecture ===================== -->
     <section class="section" id="architecture">
         <div class="container">
-            <h2 class="section-title">이 사이트도 실무 스택 그대로 만들었습니다</h2>
+            <h2 class="section-title">본 사이트는 실무 스택 기반, Claude Code AI로 제작한 사이트입니다.</h2>
             <div class="arch-grid">
                 <div class="arch-card">
                     <h3>Frontend</h3>
