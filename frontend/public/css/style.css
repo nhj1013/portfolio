@@ -13,6 +13,37 @@
     --radius: 10px;
 }
 
+/* ---------- Dark Mode 팔레트 ----------
+   색은 전부 :root 변수를 거치므로 여기서만 갈아끼우면 전체 반전된다 */
+[data-theme="dark"] {
+    --primary: #60a5fa;
+    --primary-dark: #3b82f6;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --bg: #0f172a;
+    --bg-alt: #1e293b;
+    --border: #334155;
+    --danger: #f87171;
+}
+
+/* 변수를 안 쓰고 색이 박혀 있던 부분들의 다크모드 보정 */
+[data-theme="dark"] .site-header {
+    background: rgba(15, 23, 42, 0.92);
+}
+
+[data-theme="dark"] .dark-mode-icon {
+    filter: invert(1); /* 검은 아이콘 → 흰색 */
+}
+
+[data-theme="dark"] .modal-box {
+    background: var(--bg-alt);
+}
+
+[data-theme="dark"] .badge-member {
+    background: rgba(96, 165, 250, 0.12);
+    border-color: #1e40af;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -86,6 +117,14 @@ ul {
     color: var(--primary);
 }
 
+.dark-mode-icon {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
+/* margin-left: auto 가 남는 공간을 전부 왼쪽에 몰아넣어
+   auth-area 부터 그 뒤 요소(다크모드 아이콘)까지 우측 끝으로 정렬된다 */
 .auth-area {
     margin-left: auto;
     display: flex;

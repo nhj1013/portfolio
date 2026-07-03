@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>백엔드 개발자 경력기술서</title>
+    <title>HJ.Nam</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="alternate icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <script>
+        // 저장된 테마를 렌더링 전에 적용 (새로고침 시 흰 화면 깜빡임 방지)
+        document.documentElement.dataset.theme = localStorage.getItem('portfolio.theme') || 'light';
+    </script>
     <link rel="stylesheet" href="/css/style.css">
     <script src="/js/env.js"></script>
     <script type="module" src="/js/main.js"></script>
@@ -11,7 +18,7 @@
 <body>
 <header class="site-header">
     <div class="container header-inner">
-        <a href="/" class="logo">Portfolio.</a>
+        <a href="/" class="logo">HJ.Nam</a>
         <nav class="gnb">
             <a href="#about">소개</a>
             <a href="#skills">기술 스택</a>
@@ -20,6 +27,7 @@
             <a href="#guestbook">방명록</a>
         </nav>
         <div id="authArea" class="auth-area"></div>
+        <img src="/images/dark-mode-1.png" alt="다크 모드" id="darkModeIcon" class="dark-mode-icon">
     </div>
 </header>
 
@@ -27,8 +35,11 @@
     <!-- ===================== Hero ===================== -->
     <section class="hero" id="about">
         <div class="container">
-            <p class="hero-label">Backend Developer</p>
-            <h1>안녕하세요,<br>서비스를 <span class="accent">끝까지 책임지는</span> 백엔드 개발자입니다.</h1>
+            <p class="hero-label">Full-stack Developer</p>
+            <h1>안녕하세요,<br>
+<!--                서비스를 <span class="accent">끝까지 책임지는</span>-->
+                <span class="accent">풀스택 개발자 남현지</span>입니다.
+            </h1>
             <p class="hero-desc">
                 에듀테크 도메인에서 Spring Boot 기반 B2B 주문 시스템, 어드민, 외부 배송 연동을 설계·운영했습니다.<br>
                 기획부터 배포, 유지보수까지 서비스 전 주기를 경험했으며 프론트(Vanilla JS)까지 다루는 풀스택 커버리지가 강점입니다.
@@ -86,14 +97,13 @@
     <!-- ===================== Career ===================== -->
     <section class="section section-alt" id="career">
         <div class="container">
-            <h2 class="section-title">경력</h2>
+            <h2 class="section-title">경력 <span class="period">2년차</span></h2>
 
             <div class="career-header">
                 <div>
-                    <h3 class="company">대성전산<span class="muted">(회사명 수정)</span></h3>
+                    <h3 class="company">대성전산 <span class="period">2025.02 ~ 2026.06</span></h3>
                     <p class="role">백엔드 개발자 · 풀스택</p>
                 </div>
-                <p class="period">2025.02 ~ 재직 중</p>
             </div>
             <p class="career-summary">
                 교재 제작·주문 플랫폼(Paffy / PaffyPlus)의 백엔드 및 어드민을 담당.
@@ -183,14 +193,14 @@
     <section class="section section-alt" id="guestbook">
         <div class="container">
             <h2 class="section-title">방명록 <span class="count">(<span id="commentCount">0</span>)</span></h2>
-            <p class="section-desc">로그인 없이 닉네임과 비밀번호만으로도 댓글을 남길 수 있습니다. 대댓글도 지원해요.</p>
+            <p class="section-desc">로그인 없이 닉네임과 비밀번호만으로도 댓글을 남길 수 있습니다.</p>
 
             <form id="commentForm" class="comment-form">
                 <div id="guestFields" class="guest-fields">
                     <input type="text" id="guestNickname" placeholder="닉네임" minlength="2" maxlength="20">
                     <input type="password" id="guestPassword" placeholder="비밀번호 (수정/삭제 시 사용)" minlength="4" maxlength="30">
                 </div>
-                <textarea id="commentContent" rows="3" placeholder="댓글을 입력하세요" maxlength="2000" required></textarea>
+                <textarea id="commentContent" rows="3" placeholder="Comment_:D" maxlength="2000" required></textarea>
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">댓글 등록</button>
                 </div>
