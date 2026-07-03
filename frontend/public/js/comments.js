@@ -75,7 +75,7 @@ function commentBody(c) {
         </div>
         <p class="comment-content ${c.deleted ? 'deleted' : ''}">${escapeHtml(c.content)}</p>
         <div class="comment-actions">
-            ${c.parentId == null && !c.deleted ? '<button type="button" class="link-btn" data-action="reply">답글</button>' : ''}
+            ${c.parentId == null && !c.deleted ? '<button type="button" class="link-btn" data-action="reply">답글 </button>' : ''}
             ${canEdit ? `
                 <button type="button" class="link-btn" data-action="edit">수정</button>
                 <button type="button" class="link-btn danger" data-action="delete">삭제</button>` : ''}

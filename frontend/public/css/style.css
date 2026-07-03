@@ -7,10 +7,13 @@
     --text: #1e293b;
     --text-muted: #64748b;
     --bg: #ffffff;
-    --bg-alt: #f8fafc;
+    --bg-alt: #f4faff;
     --border: #e2e8f0;
     --danger: #dc2626;
     --radius: 10px;
+
+    --container-background: #e9f0ff;
+    --container-background-dark: #10151f;
 }
 
 /* ---------- Dark Mode 팔레트 ----------
@@ -24,6 +27,8 @@
     --bg-alt: #1e293b;
     --border: #334155;
     --danger: #f87171;
+
+    --container-background: #10151f;
 }
 
 /* 변수를 안 쓰고 색이 박혀 있던 부분들의 다크모드 보정 */
@@ -63,14 +68,33 @@ body {
 }
 
 .container {
+    background: var(--container-background);
     max-width: 960px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 50px;
+    border: 3px dashed var(--border); /* solid: 실선 */
+    border-radius: 30px;
 }
 
 a {
     color: inherit;
     text-decoration: none;
+}
+
+.external-link {
+    color: var(--primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.external-link::after {
+    /* content: "↗"; */
+    font-size: 0.8em;
+    margin-left: 2px;
+}
+
+.external-link:hover {
+    opacity: 0.75;
 }
 
 ul {
@@ -98,6 +122,10 @@ ul {
     align-items: center;
     gap: 24px;
     height: 60px;
+
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 .logo {
@@ -233,6 +261,7 @@ ul {
 /* ---------- Sections ---------- */
 .section {
     padding: 70px 0;
+
 }
 
 .section-alt {
@@ -339,13 +368,6 @@ ul {
     height: 10px;
     border-radius: 50%;
     background: var(--primary);
-}
-
-.timeline-period {
-    font-size: 13px;
-    color: var(--primary);
-    font-weight: 700;
-    margin-bottom: 6px;
 }
 
 .timeline-body h4 {
