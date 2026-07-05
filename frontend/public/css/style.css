@@ -3,17 +3,20 @@
    ============================================ */
 :root {
     --primary: #5ec2f0;
-    --primary-dark: #1d4ed8;
+    --primary-dark: #3b82f6;
     --text: #1e293b;
     --text-muted: #64748b;
-    --bg: #ffffff;
+    --bg: #f6f8fa;
     --bg-alt: #f4faff;
-    --border: #e2e8f0;
+    --border: #cbd0d8;
     --danger: #dc2626;
     --radius: 10px;
 
     --container-background: #e9f0ff;
-    --container-background-dark: #10151f;
+
+    /* 섹션 교차 배경: 홀수(1·3·5번째) / 짝수(2·4·6번째) */
+    --section-bg-odd: #ffffff;
+    --section-bg-even: #f6f8fa;
 }
 
 /* ---------- Dark Mode 팔레트 ----------
@@ -21,19 +24,22 @@
 [data-theme="dark"] {
     --primary: #5ec2f0;
     --primary-dark: #3b82f6;
-    --text: #e2e8f0;
+    --text: #cbd0d8;
     --text-muted: #94a3b8;
-    --bg: #0f172a;
+    --bg: #191919;
     --bg-alt: #1e293b;
-    --border: #334155;
+    --border: #3a3a3a;
     --danger: #f87171;
 
-    --container-background: #10151f;
+    --container-background: #232936; /* 라이트 모드(#e9f0ff)와 같은 파란 틴트의 다크 표면 */
+
+    --section-bg-odd: #202020;
+    --section-bg-even: #191919;
 }
 
 /* 변수를 안 쓰고 색이 박혀 있던 부분들의 다크모드 보정 */
 [data-theme="dark"] .site-header {
-    background: rgba(15, 23, 42, 0.92);
+    background: #191919;
 }
 
 [data-theme="dark"] .dark-mode-icon {
@@ -57,7 +63,7 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: 72px;
+    scroll-padding-top: 110px; /* 2줄 헤더 높이만큼 앵커 이동 보정 */
 }
 
 body {
@@ -115,20 +121,20 @@ ul {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(255, 255, 255, 0.92);
+    background: rgba(246, 248, 250, 0.92);
     backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1.5px solid var(--border);
 }
 
 .header-inner {
     display: flex;
+    flex-wrap: wrap; /* gnb가 flex-basis: 100% 로 두 번째 줄로 내려간다 */
     align-items: center;
-    gap: 24px;
-    height: 60px;
+    gap: 0 24px;
 
     max-width: 960px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 8px 20px 0;
 }
 
 .logo {
@@ -242,15 +248,41 @@ ul {
 }
 
 .gnb {
+    order: 10; /* 첫 줄(로고·auth·다크모드) 뒤로 밀어 두 번째 줄에 배치 */
+    flex-basis: 100%;
     display: flex;
-    gap: 18px;
+    align-items: center;
+    gap: 35px;
+    min-height: 36px; /* 첫 줄보다 살짝 낮은 줄 높이 */
     font-size: 14px;
     color: var(--text-muted);
 }
 
 .gnb a {
     position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
+
+/* 아이콘: SVG 파일을 mask로 씌우고 배경색을 currentColor로 칠한다
+   → 글자색(hover·active·다크모드)을 아이콘이 그대로 따라감 */
+.gnb a::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    background-color: currentColor;
+    -webkit-mask: var(--icon) no-repeat center / contain;
+    mask: var(--icon) no-repeat center / contain;
+}
+
+.gnb a[href="#about"]        { --icon: url('/images/icons/about.svg'); }
+.gnb a[href="#skills"]       { --icon: url('/images/icons/skills.svg'); }
+.gnb a[href="#career"]       { --icon: url('/images/icons/career.svg'); }
+.gnb a[href="#education"]    { --icon: url('/images/icons/education.svg'); }
+.gnb a[href="#architecture"] { --icon: url('/images/icons/site.svg'); }
+.gnb a[href="#guestbook"]    { --icon: url('/images/icons/guestbook.svg'); }
 
 .gnb a:hover {
     color: var(--primary);
@@ -368,6 +400,34 @@ ul {
     background: var(--primary-dark);
 }
 
+/* 히어로 GitHub 버튼 · 소스코드 버튼: 프라이머리 색 없이 프로필 이미지만 반투명하게 깔기 */
+.section .arch-grid .hero-contact .btn-primary,
+.hero .hero-contact .btn-primary {
+    position: relative;
+    overflow: hidden; /* 이미지가 버튼 둥근 모서리 밖으로 안 나가게 */
+    z-index: 0;
+    background: transparent;
+    border-color: var(--border);
+    color: var(--text); /* 배경색이 없어져 흰 글자가 안 보이므로 기본 글자색으로 */
+}
+
+.section .arch-grid .hero-contact .btn-primary:hover,
+.hero .hero-contact .btn-primary:hover {
+    background: transparent;
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.section .arch-grid .hero-contact .btn-primary::before,
+.hero .hero-contact .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('/images/github-profile.png') center / 115px 50px no-repeat;
+    opacity: 0.25;
+    z-index: -1; /* 버튼 배경색 위 · 글자 아래 */
+}
+
 .btn-ghost {
     background: transparent;
     border-color: var(--border);
@@ -408,7 +468,14 @@ ul {
 
 /* ---------- Hero ---------- */
 .hero {
-    padding: 90px 0 70px;
+    padding: 50px 0 50px 0;
+}
+
+/* Hero 배경 프로필 이미지 — 컨테이너 왼쪽 상단 사분면에 텍스트 뒤로 깔림 */
+.hero .container {
+    position: relative;
+    z-index: 0; /* 스태킹 컨텍스트 생성: 이미지가 배경색 위 · 콘텐츠 아래에 놓이게 함 */
+    overflow: hidden;
 }
 
 .hero-label {
@@ -437,17 +504,22 @@ ul {
 .hero-contact {
     margin-top: 28px;
     display: flex;
-    gap: 20px;
+    gap: 10px;
 }
 
 /* ---------- Sections ---------- */
 .section {
-    padding: 70px 0;
+    padding: 50px 0;
 
 }
 
-.section-alt {
-    background: var(--bg-alt);
+/* 섹션 배경은 클래스가 아니라 순서로 자동 교차된다 (.section-alt 수동 지정 불필요) */
+main > section:nth-of-type(odd) {
+    background: var(--section-bg-odd);
+}
+
+main > section:nth-of-type(even) {
+    background: var(--section-bg-even);
 }
 
 .section-title {
@@ -467,10 +539,16 @@ ul {
 }
 
 /* ---------- Skills ---------- */
-.skill-grid,
+.skill-grid {
+   display: grid;
+   /* grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); */
+   gap: 16px;
+   padding-top: 16px;
+}
+
 .arch-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 16px;
 }
 
@@ -480,6 +558,45 @@ ul {
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 카드 공백을 채우는 배경 워터마크 아이콘 (카드당 큰 것 + 작은 것 2개 겹침) */
+.skill-bg-icon {
+    position: absolute;
+    top: 50%;
+    opacity: 0.08;
+    pointer-events: none;
+    user-select: none;
+}
+
+.skill-bg-icon.icon-a {
+    right: 92px;
+    width: 116px;
+    height: 116px;
+    transform: translateY(-58%) rotate(-8deg);
+}
+
+.skill-bg-icon.icon-b {
+    right: 28px;
+    width: 64px;
+    height: 64px;
+    transform: translateY(-18%) rotate(10deg);
+}
+
+@media (max-width: 640px) {
+    .skill-bg-icon.icon-a {
+        right: 56px;
+        width: 72px;
+        height: 72px;
+    }
+
+    .skill-bg-icon.icon-b {
+        right: 16px;
+        width: 48px;
+        height: 48px;
+    }
 }
 
 .skill-card h3,
@@ -493,6 +610,9 @@ ul {
     font-size: 14px;
     color: var(--text-muted);
     padding: 3px 0;
+}
+.skill-card li::before {
+    content: "- ";
 }
 
 .arch-card p {
@@ -791,14 +911,16 @@ textarea:focus {
     border-bottom-color: var(--primary);
 }
 
-#authForm label {
+#authForm label,
+#commentModalForm label {
     display: block;
     font-size: 13px;
     font-weight: 600;
     margin-bottom: 14px;
 }
 
-#authForm input {
+#authForm input,
+#commentModalForm input {
     width: 100%;
     margin-top: 5px;
     border: 1px solid var(--border);
@@ -806,6 +928,17 @@ textarea:focus {
     padding: 10px 12px;
     font: inherit;
     font-size: 14px;
+}
+
+.modal-title {
+    font-size: 17px;
+    margin-bottom: 6px;
+}
+
+.modal-desc {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
 }
 
 .form-error {
@@ -818,10 +951,11 @@ textarea:focus {
 /* ---------- Footer ---------- */
 .site-footer {
     padding: 32px 0;
-    border-top: 1px solid var(--border);
+    border-top: 1.5px solid var(--border);
     text-align: center;
     color: var(--text-muted);
     font-size: 13px;
+    background: var(--section-bg-odd);
 }
 
 .footer-link {

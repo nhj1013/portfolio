@@ -25,6 +25,19 @@ export function initAuth(onChange) {
         const password = $('#authPassword').value;
         const nickname = $('#authNickname').value.trim();
 
+        // 브라우저 기본 검증 말풍선(novalidate) 대신 하단 에러 텍스트로 안내
+        const invalid =
+            !username ? '아이디를 입력해주세요.'
+            : !password ? '비밀번호를 입력해주세요.'
+            : password.length < 8 ? '비밀번호는 8자 이상이어야 합니다.'
+            : mode === 'signup' && !nickname ? '닉네임을 입력해주세요.'
+            : mode === 'signup' && nickname.length < 2 ? '닉네임은 2자 이상이어야 합니다.'
+            : '';
+        if (invalid) {
+            $('#authError').textContent = invalid;
+            return;
+        }
+
         try {
             const body = mode === 'signup' ? {username, password, nickname} : {username, password};
             const result = await api(`/api/v1/auth/${mode}`, {method: 'POST', body});
@@ -50,7 +63,7 @@ function renderAuthArea(onChange) {
             onChange();
         });
     } else {
-        area.innerHTML = `<button type="button" class="btn btn-ghost" id="loginBtn">로그인 / 회원가입</button>`;
+        area.innerHTML = `<button type="button" class="btn btn-ghost" id="loginBtn">Login / Signup</button>`;
         $('#loginBtn').addEventListener('click', () => openModal('login'));
     }
 }
@@ -73,7 +86,7 @@ function switchTab(mode) {
     });
     $('#nicknameRow').style.display = mode === 'signup' ? '' : 'none';
     $('#authNickname').required = mode === 'signup';
-    $('#authSubmit').textContent = mode === 'signup' ? '회원가입' : '로그인';
+    $('#authSubmit').textContent = mode === 'signup' ? 'Signup' : 'Login';
     $('#authError').textContent = '';
 }
 

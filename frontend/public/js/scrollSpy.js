@@ -7,8 +7,10 @@ export function initScrollSpy() {
     if (sections.length === 0) return;
 
     const update = () => {
-        // 헤더(72px) 바로 아래를 기준선으로, 기준선을 지난 마지막 섹션이 현재 섹션
-        const line = window.scrollY + 90;
+        // 앵커 스크롤이 멈추는 지점(scroll-padding-top) 바로 아래를 기준선으로,
+        // 기준선을 지난 마지막 섹션이 현재 섹션 (CSS 값을 읽으므로 헤더 높이가 바뀌어도 자동 추적)
+        const pad = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 110;
+        const line = window.scrollY + pad + 10;
         let current = sections[0];
         for (const sec of sections) {
             if (sec.offsetTop <= line) current = sec;
