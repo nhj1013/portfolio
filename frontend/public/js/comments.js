@@ -25,6 +25,7 @@ export function initComments() {
 
 // ---------- 확인/게스트 비밀번호 모달 (auth 모달과 같은 .modal/.modal-box 사용) ----------
 let modalResolve = null;
+let modalOnConfirm = null;
 
 function initCommentModal() {
     $('#commentModalClose').addEventListener('click', () => closeCommentModal(null));
@@ -32,7 +33,7 @@ function initCommentModal() {
     $('#commentModal').addEventListener('click', (e) => {
         if (e.target.id === 'commentModal') closeCommentModal(null);
     });
-    $('#commentModalForm').addEventListener('submit', (e) => {
+    $('#commentModalForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const needPw = $('#commentModalPwRow').style.display !== 'none';
         const pw = $('#commentModalPw').value;
@@ -40,12 +41,24 @@ function initCommentModal() {
             $('#commentModalError').textContent = '비밀번호를 입력해주세요.';
             return;
         }
-        closeCommentModal(needPw ? pw : true);
+        const value = needPw ? pw : true;
+
+        // onConfirm(API 호출)이 있으면 모달을 띄운 채 실행하고,
+        // 실패 시 모달 안에 에러를 표시한다 (성공해야만 닫힘)
+        if (modalOnConfirm) {
+            try {
+                await modalOnConfirm(value);
+            } catch (err) {
+                $('#commentModalError').textContent = err.message;
+                return;
+            }
+        }
+        closeCommentModal(value);
     });
 }
 
-// 확인 시 비밀번호(또는 true), 취소/닫기 시 null 로 resolve 되는 Promise 반환
-function openCommentModal({title, desc = '', password = false}) {
+// 확인(onConfirm 성공) 시 비밀번호(또는 true), 취소/닫기 시 null 로 resolve 되는 Promise 반환
+function openCommentModal({title, desc = '', password = false, onConfirm = null}) {
     $('#commentModalTitle').textContent = title;
     $('#commentModalDesc').textContent = desc;
     $('#commentModalDesc').style.display = desc ? '' : 'none';
@@ -54,6 +67,7 @@ function openCommentModal({title, desc = '', password = false}) {
     $('#commentModalError').textContent = '';
     $('#commentModal').classList.add('open');
     if (password) $('#commentModalPw').focus();
+    modalOnConfirm = onConfirm;
     return new Promise((resolve) => {
         modalResolve = resolve;
     });
@@ -63,6 +77,7 @@ function closeCommentModal(result) {
     $('#commentModal').classList.remove('open');
     modalResolve?.(result);
     modalResolve = null;
+    modalOnConfirm = null;
 }
 
 // ---------- 공통 유효성 검사 (브라우저 기본 검증 대신 하단 에러 텍스트) ----------
@@ -269,21 +284,27 @@ function startEdit(commentEl, commentId) {
         }
         errorEl.textContent = '';
 
-        const isGuest = commentEl.querySelector('.badge').textContent === '게스트';
-        let guestPassword = null;
-        if (isGuest) {
-            guestPassword = await openCommentModal({
-                title: '댓글 수정',
-                desc: '작성 시 입력한 비밀번호를 입력하세요.',
-                password: true,
-            });
-            if (guestPassword == null) return;
-        }
-        try {
-            await api(`/api/v1/comments/${commentId}`, {
+        const updateApi = (guestPassword) =>
+            api(`/api/v1/comments/${commentId}`, {
                 method: 'PUT',
                 body: {content, guestPassword},
             });
+
+        const isGuest = commentEl.querySelector('.badge').textContent === '게스트';
+        if (isGuest) {
+            // 모달을 띄운 채 API를 호출하고, 비밀번호 불일치 등 실패는 모달 안에 표시됨
+            const done = await openCommentModal({
+                title: '댓글 수정',
+                desc: '작성 시 입력한 비밀번호를 입력하세요.',
+                password: true,
+                onConfirm: updateApi,
+            });
+            if (done == null) return; // 취소
+            loadComments(currentPage);
+            return;
+        }
+        try {
+            await updateApi(null);
             loadComments(currentPage);
         } catch (err) {
             errorEl.textContent = err.message;
@@ -293,35 +314,24 @@ function startEdit(commentEl, commentId) {
 
 async function deleteComment(commentEl, commentId) {
     const isGuest = commentEl.querySelector('.badge').textContent === '게스트';
-    let guestPassword = null;
-    if (isGuest) {
-        guestPassword = await openCommentModal({
+    const deleteApi = (guestPassword) =>
+        api(`/api/v1/comments/${commentId}`, {method: 'DELETE', body: {guestPassword}});
+
+    // 모달을 띄운 채 API를 호출하고, 실패(비밀번호 불일치 등)는 모달 안에 표시됨
+    const done = isGuest
+        ? await openCommentModal({
             title: '댓글 삭제',
             desc: '작성 시 입력한 비밀번호를 입력하세요.',
             password: true,
+            onConfirm: deleteApi,
+        })
+        : await openCommentModal({
+            title: '댓글 삭제',
+            desc: '댓글을 삭제할까요?',
+            onConfirm: () => deleteApi(null),
         });
-        if (guestPassword == null) return;
-    } else {
-        const ok = await openCommentModal({title: '댓글 삭제', desc: '댓글을 삭제할까요?'});
-        if (!ok) return;
-    }
-    try {
-        await api(`/api/v1/comments/${commentId}`, {method: 'DELETE', body: {guestPassword}});
-        loadComments(currentPage);
-    } catch (err) {
-        showCommentError(commentEl, err.message);
-    }
-}
-
-// 목록 안 댓글(수정 폼이 없는 상태)에서 발생한 에러를 해당 댓글 아래에 표시
-function showCommentError(commentEl, msg) {
-    let el = [...commentEl.children].find((c) => c.classList?.contains('form-error'));
-    if (!el) {
-        el = document.createElement('p');
-        el.className = 'form-error';
-        commentEl.querySelector('.comment-actions').after(el);
-    }
-    el.textContent = msg;
+    if (done == null) return; // 취소
+    loadComments(currentPage);
 }
 
 function renderPagination(data) {

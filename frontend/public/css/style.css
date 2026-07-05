@@ -48,6 +48,8 @@
 
 [data-theme="dark"] .modal-box {
     background: var(--bg-alt);
+    border: 1px solid var(--border); /* 어두운 배경에선 그림자만으론 분리가 약해 테두리 병행 */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="dark"] .badge-member {
@@ -874,6 +876,7 @@ textarea:focus {
     padding: 28px;
     width: min(380px, calc(100vw - 40px));
     position: relative;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.35), 0 4px 12px rgba(15, 23, 42, 0.2);
 }
 
 .modal-close {
