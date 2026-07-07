@@ -75,7 +75,8 @@ body {
     background: var(--bg);
     line-height: 1.6;
     font-weight: 400;
-      font-style: normal;
+    font-style: normal;
+    word-break: keep-all; /* 한글 단어 단위로 줄바꿈 - 전체 적용 */
 }
 
 .container {
@@ -532,6 +533,12 @@ main > section:nth-of-type(even) {
 .section-title .count {
     color: var(--primary);
     font-size: 20px;
+}
+
+.education-summary {
+    padding: 20px 0;
+    line-height: 1.8;
+    word-break: keep-all; /* 한글 단어 단위로 줄바꿈 */
 }
 
 .section-desc {
