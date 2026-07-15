@@ -5,6 +5,7 @@ import {initCloudLogo} from './cloudLogo.js';
 import {initScrollSpy} from './scrollSpy.js';
 import {initIcons} from './icons.js';
 import {initCopyText} from './copyText.js';
+import {initVisitor} from './visitor.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
@@ -14,4 +15,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollSpy();
     initIcons();
     initCopyText();
+    initVisitor();
 });

@@ -977,6 +977,16 @@ textarea:focus {
     text-decoration: underline;
 }
 
+.visitor-counter {
+    margin-left: auto; /* 남는 공간을 왼쪽에 몰아 gnb 줄의 우측 끝에 정렬 */
+    font-size: 12px;
+}
+
+.visitor-counter span {
+    color: var(--primary);
+    font-weight: 600;
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 640px) {
     .gnb {

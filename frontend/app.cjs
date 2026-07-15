@@ -18,6 +18,7 @@ app.use('/api', express.raw({type: '*/*', limit: '2mb'}), async (req, res) => {
     const headers = {};
     if (req.headers['content-type']) headers['content-type'] = req.headers['content-type'];
     if (req.headers['authorization']) headers['authorization'] = req.headers['authorization'];
+    if (req.headers['cookie']) headers['cookie'] = req.headers['cookie']; // 방문자 쿠키 전달
 
     const init = {method: req.method, headers};
     if (!['GET', 'HEAD'].includes(req.method) && req.body && req.body.length) {
@@ -29,6 +30,11 @@ app.use('/api', express.raw({type: '*/*', limit: '2mb'}), async (req, res) => {
         res.status(upstream.status);
         const contentType = upstream.headers.get('content-type');
         if (contentType) res.set('content-type', contentType);
+        // 백엔드가 발급한 쿠키(Set-Cookie)를 브라우저까지 전달
+        const setCookies = typeof upstream.headers.getSetCookie === 'function'
+            ? upstream.headers.getSetCookie()
+            : [];
+        if (setCookies.length) res.set('set-cookie', setCookies);
         res.send(Buffer.from(await upstream.arrayBuffer()));
     } catch (err) {
         console.error('❌ API 프록시 실패:', err.message);
